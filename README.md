@@ -1,6 +1,10 @@
 # discord-gpt
 A bot that connects Discord to ChatGPT because it's 2023
 
+Relies on:
+https://github.com/discordjs/discord.js
+https://github.com/openai/openai-node
+
 The idea is that this will be a bot that gets invoked through Discord, and then ChatGPT spits out it's AI-generated goodness into the channel
 
 Features:
