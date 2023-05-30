@@ -2,7 +2,7 @@
   "name": "discord-gpt",
   "version": "1.0.0",
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
-  "main": "dist/app,js",
+  "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
   },
