@@ -10,6 +10,11 @@ const commands = [
   {
     name: 'chat',
     description: 'Sends a message to GPT',
+    options: [
+      name: 'prompt',
+      type: 3,
+      required: true
+    ]
   },
 ];
 
@@ -42,7 +47,7 @@ client.on('interactionCreate', async interaction => {
       model: "gpt-3.5-turbo",
       messages: [
         {role: "user", content: "Hello world"},
-        {role: "user", content: "Say 'hello world' in a language other than English"}
+        {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
     
