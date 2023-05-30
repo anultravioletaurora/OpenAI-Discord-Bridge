@@ -42,7 +42,8 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'chat') {
     
-    console.log(interaction);
+    // trigger a deferred response, otherwise the 3-second timeout will kill this request
+    await interaction.deferReply()
     
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -51,9 +52,7 @@ client.on('interactionCreate', async interaction => {
         {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
-    
-    console.log(response);
-    
+        
     await interaction.reply(response.data.choices[0].message);
   }
 });
