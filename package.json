@@ -4,7 +4,7 @@
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
   "main": "dist/app.js",
   "scripts": {
-    "build": "tsc -p",
+    "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
