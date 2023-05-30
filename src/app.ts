@@ -10,11 +10,11 @@ const commands = [
   {
     name: 'chat',
     description: 'Sends a message to GPT',
-    options: [
+    options: [{
       name: 'prompt',
       type: 3,
       required: true,
-    ],
+    }],
   },
 ];
 
