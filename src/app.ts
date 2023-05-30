@@ -1,4 +1,10 @@
 import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 const commands = [
   {
@@ -29,7 +35,12 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === 'chat') {
-    await interaction.reply('Hello there!');
+    const response = await openai.createCompletion({
+      model: "gpt-4",
+      prompt: "Say this is a test",
+    });
+    
+    await interaction.reply(response);
   }
 });
 
