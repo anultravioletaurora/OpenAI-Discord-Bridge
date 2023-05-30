@@ -48,7 +48,7 @@ client.on('interactionCreate', async interaction => {
     
     console.log(response);
     
-    await interaction.reply(response.data.choices[0].text);
+    await interaction.reply(response.data.choices[0].message);
   }
 });
 
