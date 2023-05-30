@@ -41,8 +41,8 @@ client.on('interactionCreate', async interaction => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        {"role": "system", "content": "You are a helpful, albeit slightly sassy assistant"},
-        {"role": "user", "content": "Say 'hello world' in a language other than English"}
+        {role: "user", content: "Hello world"},
+        {role: "user", content: "Say 'hello world' in a language other than English"}
       ],
     });
     
