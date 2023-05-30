@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
     "module": "es2022",
-    "esModuleInterop": true,
-    "target": "es2020",
+    "target": "es2017",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "declarationDir": "types"
   },
   "lib": ["ES2020"]
 }
