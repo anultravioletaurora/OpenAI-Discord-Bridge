@@ -12,6 +12,7 @@ const commands = [
     description: 'Sends a message to GPT',
     options: [{
       name: 'prompt',
+      description: 'The prompt for GPT to respond to',
       type: 3,
       required: true,
     }],
