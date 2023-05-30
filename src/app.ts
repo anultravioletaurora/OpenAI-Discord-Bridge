@@ -1,31 +1,36 @@
-import { REST } from '@discordjs/rest';
-import { WebSocketManager } from '@discordjs/ws';
-import { GatewayDispatchEvents, GatewayIntentBits, InteractionType, MessageFlags, Client } from '@discordjs/core';
+import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
 
-// Create REST and WebSocket managers directly
-const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+const commands = [
+  {
+    name: 'chat',
+    description: 'Sends a message to GPT',
+  },
+];
 
-const gateway = new WebSocketManager({
-	token: process.env.DISCORD_TOKEN,
-	intents: GatewayIntentBits.GuildMessages | GatewayIntentBits.MessageContent,
-	rest,
+const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
+
+try {
+  console.log('Started refreshing application (/) commands.');
+
+  await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands });
+
+  console.log('Successfully reloaded application (/) commands.');
+} catch (error) {
+  console.error(error);
+}
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// Create a client to emit relevant events.
-const client = new Client({ rest, gateway });
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isChatInputCommand()) return;
 
-// Listen for interactions
-// Each event contains an `api` prop along with the event data that allows you to interface with the Discord REST API
-client.on(GatewayDispatchEvents.InteractionCreate, async ({ data: interaction, api }) => {
-	if (interaction.type !== InteractionType.ApplicationCommand || interaction.data.name !== 'ping') {
-		return;
-	}
-
-	await api.interactions.reply(interaction.id, interaction.token, { content: 'Pong!', flags: MessageFlags.Ephemeral });
+  if (interaction.commandName === 'chat') {
+    await interaction.reply('Hello there!');
+  }
 });
 
-// Listen for the ready event
-client.once(GatewayDispatchEvents.Ready, () => console.log('Ready!'));
-
-// Start the WebSocket connection.
-gateway.connect();
+client.login(process.env.BOT_TOKEN);
