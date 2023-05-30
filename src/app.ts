@@ -13,8 +13,8 @@ const commands = [
     options: [
       name: 'prompt',
       type: 3,
-      required: true
-    ]
+      required: true,
+    ],
   },
 ];
 
