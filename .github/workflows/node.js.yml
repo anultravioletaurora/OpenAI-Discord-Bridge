@@ -41,6 +41,7 @@ jobs:
         name: discord-gpt
         path: |
           dist
+          package*.json
           Dockerfile
           !dist/**/*.md
     
