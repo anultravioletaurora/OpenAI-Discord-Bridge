@@ -1,0 +1,19 @@
+{
+  "name": "discord-gpt",
+  "version": "1.0.0",
+  "description": "A bot that connects Discord to ChatGPT because it's 2023",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "openai": "^3.2.1"
+  }
+}
