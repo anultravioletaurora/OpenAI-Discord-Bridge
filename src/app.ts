@@ -35,9 +35,15 @@ client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === 'chat') {
-    const response = await openai.createCompletion({
-      model: "gpt-4",
-      prompt: "Say this is a test",
+    
+    console.log(interaction);
+    
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {"role": "system", "content": "You are a helpful, albeit slightly sassy assistant"},
+        {"role": "user", "content": "Say 'hello world' in a language other than English"}
+      ],
     });
     
     console.log(response);
