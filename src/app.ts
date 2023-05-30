@@ -40,7 +40,7 @@ client.on('interactionCreate', async interaction => {
       prompt: "Say this is a test",
     });
     
-    await interaction.reply(response);
+    // await interaction.reply(response);
   }
 });
 
