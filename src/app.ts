@@ -1,4 +1,4 @@
-import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
+const { REST, Routes, Client, GatewayIntentBits } = require('discord.js')
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
