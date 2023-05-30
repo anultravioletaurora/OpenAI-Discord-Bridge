@@ -10,4 +10,4 @@ RUN npm install
 # Bundle app source
 COPY dist .
 
-CMD [ "node", "app.js" ]
+CMD [ "node", "--experimental-modules", "app.js" ]
