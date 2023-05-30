@@ -53,7 +53,7 @@ client.on('interactionCreate', async interaction => {
       ],
     });
         
-    await interaction.reply(response.data.choices[0].message);
+    await interaction.editReply(response.data.choices[0].message);
   }
 });
 
