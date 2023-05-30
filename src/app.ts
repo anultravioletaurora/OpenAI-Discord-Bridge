@@ -9,10 +9,10 @@ const openai = new OpenAIApi(configuration);
 const commands = [
   {
     name: 'chat',
-    description: 'Sends a message to GPT',
+    description: 'Sends a message to ChatGPT',
     options: [{
       name: 'prompt',
-      description: 'The prompt for GPT to respond to',
+      description: 'What do you want ChatGPT to do?',
       type: 3,
       required: true,
     }],
@@ -48,7 +48,7 @@ client.on('interactionCreate', async interaction => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        {role: "user", content: "Hello world"},
+        {role: "system", content: "You are a sassy and sarcastic assistant"},
         {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
