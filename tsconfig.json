@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "declarationDir": "types"
+    // "declarationDir": "types"
   },
   "lib": ["ES2020"]
 }
