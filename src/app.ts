@@ -1,58 +1,38 @@
-import { REST, Routes, Client, Collection, GatewayIntentBits, ApplicationCommand } from 'discord.js';
+import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
 import { Configuration, OpenAIApi } from "openai";
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 
-
-// I'm gonna move this but it's here so I can get this code working again
-export default class CommandClient extends Client {
-
-    commands: Collection<String, ApplicationCommand>;
-}
-
-// Needed for registering all slash commands
-
-// Setup for OpenAI API
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
-// Setup for Discord API
-const client = new CommandClient({ intents: [GatewayIntentBits.GuildMembers] });
-
-client.commands = new Collection();
-
-const commandsFolderPath = join(dirname(fileURLToPath(import.meta.url)), 'commands');
-
-const commandFiles = fs.readdirSync(commandsFolderPath).filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-	const filePath = path.join(commandsFolderPath, file);
-	import(filePath).then((command) => {
-		// Set a new item in the Collection with the key as the command name and the value as the exported module
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.warn(`The command at ${filePath} is missing a required "data" or "execute" property.`);
-		}
-  	});
-}
-
+const commands = [
+  {
+    name: 'chat',
+    description: 'Sends a message to ChatGPT',
+    options: [{
+      name: 'prompt',
+      description: 'What do you want ChatGPT to do?',
+      type: 3,
+      required: true,
+    }],
+  },
+];
 
 const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
 
 try {
   console.log('Started refreshing application (/) commands.');
 
-  await rest.put(Routes.applicationCommands(process.env.CLIENT_ID));
+  await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands });
 
   console.log('Successfully reloaded application (/) commands.');
 } catch (error) {
   console.error(error);
 }
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -60,24 +40,21 @@ client.on('ready', () => {
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
-  // @ts-ignore
-  const command = interaction.client.commands.get(interaction.commandName);
-
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-	}
+  if (interaction.commandName === 'chat') {
+    
+    // trigger a deferred response, otherwise the 3-second timeout will kill this request
+    await interaction.deferReply()
+    
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {role: "system", content: "You are a sassy and sarcastic assistant"},
+        {role: "user", content: interaction.options.getString("prompt")}
+      ],
+    });
+        
+    await interaction.followUp(response.data.choices[0].message);
+  }
 });
 
 client.login(process.env.BOT_TOKEN);
