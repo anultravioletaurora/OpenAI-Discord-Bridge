@@ -1,5 +1,7 @@
 import { REST, Routes, Client, Collection, GatewayIntentBits, ApplicationCommand } from 'discord.js';
 import { Configuration, OpenAIApi } from "openai";
+import fs from 'node:fs';
+import path from 'node:path';
 
 // I'm gonna move this but it's here so I can get this code working again
 export default class CommandClient extends Client {
@@ -8,8 +10,6 @@ export default class CommandClient extends Client {
 }
 
 // Needed for registering all slash commands
-const fs = require('node:fs');
-const path = require('node:path');
 
 // Setup for OpenAI API
 const configuration = new Configuration({
