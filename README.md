@@ -17,5 +17,5 @@ A bot that connects Discord to ChatGPT because it's 2023. You and your fellow Di
 - Configurable levels of humor and sassiness
 
 ### Run via Docker
-`docker run ghcr.io/jackcauliflower/discord-gpt:latest -e BOT_TOKEN="yourdiscordbottoken" -e CLIENT_ID="yourdiscordappclientid" -e OPENAI_API_KEY="youropenaiapikey"`
+`docker run -e BOT_TOKEN="yourdiscordbottoken" -e CLIENT_ID="yourdiscordappclientid" -e OPENAI_API_KEY="youropenaiapikey" ghcr.io/jackcauliflower/discord-gpt:latest`
 This will pull the latest "stable" version from the Github container registry. These containers are automatically generated when new releases come out
