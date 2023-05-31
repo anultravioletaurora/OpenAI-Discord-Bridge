@@ -13,7 +13,7 @@ const commands = [
     options: [{
       name: 'prompt',
       description: 'What do you want ChatGPT to do?',
-      type: 3,
+      type: 1,
       required: true,
     }],
   },
