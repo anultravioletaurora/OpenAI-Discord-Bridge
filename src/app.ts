@@ -30,7 +30,7 @@ const commandsFolderPath = join(dirname(fileURLToPath(import.meta.url)), 'comman
 const commandFiles = fs.readdirSync(commandsFolderPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
+	const filePath = path.join(commandsFolderPath, file);
 	const command = require(filePath);
 
 	// Set a new item in the Collection with the key as the command name and the value as the exported module
