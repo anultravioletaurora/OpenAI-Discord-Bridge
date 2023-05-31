@@ -1,11 +1,9 @@
 # discord-gpt
-A bot that connects Discord to ChatGPT because it's 2023
+A bot that connects Discord to ChatGPT because it's 2023. You and your fellow Discordians can bask in it's generative goodness
 
 ### Relies on:
 - https://github.com/discordjs/discord.js
 - https://github.com/openai/openai-node
-
-The idea is that this will be a bot that gets invoked through Discord, and then ChatGPT spits out it's AI-generated goodness into the channel
 
 ### Features:
 - Invoke via slash-commands
@@ -19,4 +17,5 @@ The idea is that this will be a bot that gets invoked through Discord, and then 
 - Configurable levels of humor and sassiness
 
 ### Run via Docker
-// TODO
+`docker run ghcr.io/jackcauliflower/discord-gpt:latest -e BOT_TOKEN="yourdiscordbottoken" -e CLIENT_ID="yourdiscordappclientid" -e OPENAI_API_KEY="youropenaiapikey"`
+This will pull the latest "stable" version from the Github container registry. These containers are automatically generated when new releases come out
