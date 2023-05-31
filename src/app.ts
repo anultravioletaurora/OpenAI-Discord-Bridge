@@ -31,14 +31,14 @@ const commandFiles = fs.readdirSync(commandsFolderPath).filter(file => file.ends
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsFolderPath, file);
-	const command = require(filePath);
-
-	// Set a new item in the Collection with the key as the command name and the value as the exported module
-	if ('data' in command && 'execute' in command) {
-		client.commands.set(command.data.name, command);
-	} else {
-		console.warn(`The command at ${filePath} is missing a required "data" or "execute" property.`);
-	}
+	import(filePath).then((command) => {
+		// Set a new item in the Collection with the key as the command name and the value as the exported module
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+		} else {
+			console.warn(`The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+  	});
 }
 
 
