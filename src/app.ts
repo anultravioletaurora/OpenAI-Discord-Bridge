@@ -2,6 +2,9 @@ import { REST, Routes, Client, Collection, GatewayIntentBits, ApplicationCommand
 import { Configuration, OpenAIApi } from "openai";
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
 
 // I'm gonna move this but it's here so I can get this code working again
 export default class CommandClient extends Client {
