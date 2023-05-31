@@ -22,8 +22,9 @@ const client = new CommandClient({ intents: [GatewayIntentBits.GuildMembers] });
 
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandsFolderPath = join(dirname(fileURLToPath(import.meta.url)), 'commands');
+
+const commandFiles = fs.readdirSync(commandsFolderPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
