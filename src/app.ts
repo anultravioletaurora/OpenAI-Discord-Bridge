@@ -1,6 +1,11 @@
-import { REST, Routes, Client, Collection, GatewayIntentBits } from 'discord.js';
+import { REST, Routes, Client, Collection, GatewayIntentBits, ApplicationCommand } from 'discord.js';
 import { Configuration, OpenAIApi } from "openai";
-import CommandClient from './types/client';
+
+// I'm gonna move this but it's here so I can get this code working again
+export default class CommandClient extends Client {
+
+    commands: Collection<String, ApplicationCommand>;
+}
 
 // Needed for registering all slash commands
 const fs = require('node:fs');
