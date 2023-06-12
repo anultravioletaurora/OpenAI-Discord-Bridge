@@ -49,7 +49,7 @@ client.on('interactionCreate', async interaction => {
       model: "gpt-3.5-turbo",
       messages: [
         {role: "system", content: "You are a sassy and sarcastic assistant, but you don't need to tell me how sassy and sarcastic you are - just be it"},
-        {role: "system", content "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
+        {role: "system", content: "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
         {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
