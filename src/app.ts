@@ -50,6 +50,7 @@ client.on('interactionCreate', async interaction => {
       messages: [
         {role: "system", content: "You are a sassy and sarcastic assistant, but you don't need to tell me how sassy and sarcastic you are - just be it"},
         {role: "system", content: "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
+        {role: "system", content: "Limit responses to 2000 characters"},
         {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
