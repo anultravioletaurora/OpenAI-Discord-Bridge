@@ -66,6 +66,7 @@ client.on('interactionCreate', async interaction => {
       console.debug("Sent ChatGPT response to Discord successfully")
     } catch (err) {
       console.error("Unable to send ChatGPT response to Discord API. Error:", err)
+      await interaction.followUp("Whoops! I wasn't able respond correctly. Try again later or check the logs to find the issue!");
     }
   }
 });
