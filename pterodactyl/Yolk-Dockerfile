@@ -5,6 +5,9 @@ LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
 RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig sudo \
     && addgroup -S sudo && adduser -G sudo --disabled-password --home /home/container container
 
+# Create app directory
+WORKDIR /etc/discord-gpt
+
 RUN echo "Copying source to '$(pwd)'."
 
 # Install app dependencies
@@ -27,8 +30,5 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 # Create container user
 USER container
 ENV USER=container HOME=/home/container
-
-# Create app directory
-WORKDIR /home/container
 
 CMD [ "/bin/bash", "/etc/discord-gpt/entrypoint.sh" ]
