@@ -48,7 +48,7 @@ client.on('interactionCreate', async interaction => {
 
     console.debug("Requesting Chat completion from OpenAI");
     
-    const response = await openai.createChatCompletion({
+    const response = await openai.chat.completions.create({
       model: process.env.MODEL ?? "gpt-3.5-turbo",
       messages: [
 
@@ -63,7 +63,7 @@ client.on('interactionCreate', async interaction => {
     console.debug("Returning Chat completion to Discord");
 
     try {
-      await interaction.followUp(response.data.choices[0].message);
+      await interaction.followUp(response.choices[0].message);
       console.debug("Sent ChatGPT response to Discord successfully")
     } catch (err) {
       console.error("Unable to send ChatGPT response to Discord API. Error:", err)
