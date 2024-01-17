@@ -21,7 +21,8 @@ module.exports = {
       // trigger a deferred response, otherwise the 3-second timeout will kill this request
       await interaction.deferReply();
 
-      console.debug(`Discord interaction options: ${JSON.stringify(interaction.options)}`)
+      console.debug(`Discord interaction options: ${JSON.stringify(interaction.options)}`);
+      console.debug(`User submitted prompt: ${interaction.options.getString("prompt")}`);
     
       const response = await openai.chat.completions.create({
         model: process.env.MODEL ?? "gpt-3.5-turbo",
