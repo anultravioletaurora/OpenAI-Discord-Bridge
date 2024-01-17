@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
   "main": "src/index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
   },

@@ -1,6 +1,7 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
+
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 
 function registerCommands() {
