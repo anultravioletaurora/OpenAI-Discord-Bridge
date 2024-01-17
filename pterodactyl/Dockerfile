@@ -11,7 +11,7 @@ WORKDIR /etc/discord-gpt
 RUN echo "Copying source to '$(pwd)'."
 
 # Copy app source
-COPY ./* /etc/discord-gpt
+COPY ../* /etc/discord-gpt
 # Install app dependencies
 RUN sudo npm install
 

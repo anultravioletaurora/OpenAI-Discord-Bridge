@@ -4,7 +4,7 @@ FROM node:18
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY * ./
+COPY ../* ./
 RUN npm install
 
 CMD [ "node", "--experimental-modules", "app.js" ]
