@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2024-01-17T11:38:16-06:00",
+    "exported_at": "2024-01-17T14:30:03-06:00",
     "name": "Discord-GPT",
     "author": "yuri@cosmonautical.cloud",
     "description": "A bot that connects your Discord server to OpenAI's GPT models",
@@ -13,7 +13,7 @@
         "Discord-GPT Yolk": "ghcr.io\/anultravioletaurora\/discord-gpt-yolk:main"
     },
     "file_denylist": [],
-    "startup": "node --experimental-modules app.js",
+    "startup": "node --experimental-modules index.js",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"Logged in as\"\r\n}",
@@ -34,7 +34,7 @@
             "env_variable": "MODEL",
             "default_value": "",
             "user_viewable": false,
-            "user_editable": false,
+            "user_editable": true,
             "rules": "string|max:20",
             "field_type": "text"
         },
