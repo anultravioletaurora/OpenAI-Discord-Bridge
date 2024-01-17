@@ -1,0 +1,39 @@
+import { SlashCommandBuilder, SlashCommandStringOption } from 'discord.js';
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("chat")
+    .setDescription("Sends a message to ChatGPT")
+    .addStringOption(new SlashCommandStringOption()
+      .setName("prompt")
+      .setDescription("What do you want ChatGPT to do?")
+      .setRequired(true))
+    .setDMPermission(false)
+    .setDefaultMemberPermissions(2),
+
+  async execute(interaction) {
+      // trigger a deferred response, otherwise the 3-second timeout will kill this request
+      await interaction.deferReply();
+    
+      const response = await openai.chat.completions.create({
+        model: process.env.MODEL ?? "gpt-3.5-turbo",
+        messages: [
+  
+          // TODO: Read these in from a JSON file configurable by the user
+          {role: "system", content: "You are a sassy and sarcastic assistant, but you don't need to tell me how sassy and sarcastic you are - just be it"},
+          {role: "system", content: "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
+          {role: "system", content: "You should limit your responses to 2000 characters"},
+          {role: "user", content: interaction.options.getString("prompt")}
+        ],
+      });
+      
+      await interaction.followUp(response.choices[0].message);
+    }
+};
+
+

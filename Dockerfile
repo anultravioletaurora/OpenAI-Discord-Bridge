@@ -4,10 +4,7 @@ FROM node:18
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package*.json ./
+COPY * ./
 RUN npm install
-
-# Bundle app source
-COPY dist .
 
 CMD [ "node", "--experimental-modules", "app.js" ]

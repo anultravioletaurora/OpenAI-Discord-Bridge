@@ -2,10 +2,9 @@
   "name": "discord-gpt",
   "version": "1.0.4",
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
-  "main": "dist/app.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
