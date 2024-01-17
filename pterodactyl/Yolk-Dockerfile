@@ -2,24 +2,33 @@ FROM node:18-alpine
 
 LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
 
-RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig \
-    && adduser --disabled-password --home /home/container container
+RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig sudo \
+    && addgroup -S sudo && adduser -G sudo --disabled-password --home /home/container container
+
+# Create app directory
+WORKDIR /etc/discord-gpt
+
+RUN echo "Copying source to '$(pwd)'."
+
+# Install app dependencies
+COPY ../package*.json /etc/discord-gpt
+RUN sudo npm install
+
+# Bundle app source
+COPY ./dist/* /etc/discord-gpt
+
+RUN sudo chmod u+x /etc/discord-gpt/*
+RUN sudo chown -R container /etc/discord-gpt
+
+# Copy entrypoint script
+COPY ./pterodactyl/entrypoint.sh /etc/discord-gpt/entrypoint.sh
+
+RUN echo "Working Directory contents: '$(ls -l /etc/discord-gpt)'."
+
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Create container user
 USER container
 ENV USER=container HOME=/home/container
 
-# Create app directory
-WORKDIR /home/container
-
-# Install app dependencies
-COPY ../package*.json ./
-RUN npm install
-
-# Bundle app source
-COPY ../dist .
-
-# Copy entrypoint script
-COPY ./entrypoint.sh /entrypoint.sh
-
-CMD [ "/bin/bash", "/entrypoint.sh" ]
+CMD [ "/bin/bash", "/etc/discord-gpt/entrypoint.sh" ]
