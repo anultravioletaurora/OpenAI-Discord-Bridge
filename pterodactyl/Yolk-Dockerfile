@@ -6,7 +6,7 @@ RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite
     && adduser --disabled-password --home /home/container container
 
 # Add container user to sudo group
-RUN sudo usermod -aG sudo container
+RUN sudo addgroup container sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Create container user
