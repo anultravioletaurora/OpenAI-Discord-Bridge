@@ -1,6 +1,6 @@
 {
   "name": "discord-gpt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
   "main": "dist/app.js",
   "type": "module",

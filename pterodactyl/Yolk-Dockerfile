@@ -1,0 +1,25 @@
+FROM node:18-alpine
+
+LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
+
+RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig \
+    && adduser --disabled-password --home /home/container container
+
+# Create container user
+USER container
+ENV USER=container HOME=/home/container
+
+# Create app directory
+WORKDIR /home/container
+
+# Install app dependencies
+COPY ../package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY ../dist .
+
+# Copy entrypoint script
+COPY ./entrypoint.sh /entrypoint.sh
+
+CMD [ "/bin/bash", "/entrypoint.sh" ]
