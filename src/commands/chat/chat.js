@@ -10,10 +10,10 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("chat")
     .setDescription("Sends a message to ChatGPT")
-    .addStringOption(new SlashCommandStringOption()
-      .setName("prompt")
-      .setDescription("What do you want ChatGPT to do?")
-      .setRequired(true))
+    .addStringOption(option => 
+      option.setName("prompt")
+            .setDescription("What do you want ChatGPT to do?")
+            .setRequired(true))
     .setDMPermission(false)
     .setDefaultMemberPermissions(2),
 
