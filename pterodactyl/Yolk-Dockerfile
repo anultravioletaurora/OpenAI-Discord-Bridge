@@ -11,17 +11,13 @@ WORKDIR /etc/discord-gpt
 RUN echo "Copying source to '$(pwd)'."
 
 # Copy app source
-COPY ../* /etc/discord-gpt
-
+COPY ./* /etc/discord-gpt
 # Install app dependencies
 RUN sudo npm install
 
 
 RUN sudo chmod u+x /etc/discord-gpt/*
 RUN sudo chown -R container /etc/discord-gpt
-
-# Copy entrypoint script
-COPY ./pterodactyl/entrypoint.sh /etc/discord-gpt/entrypoint.sh
 
 RUN echo "Working Directory contents: '$(ls -l /etc/discord-gpt)'."
 
@@ -31,4 +27,4 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER container
 ENV USER=container HOME=/home/container
 
-CMD [ "/bin/bash", "/etc/discord-gpt/entrypoint.sh" ]
+CMD [ "/bin/bash", "/etc/discord-gpt/pterodactyl/entrypoint.sh" ]
