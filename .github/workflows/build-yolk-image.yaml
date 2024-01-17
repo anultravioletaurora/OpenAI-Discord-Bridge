@@ -46,7 +46,8 @@ jobs:
         path: |
           dist
           package*.json
-          pterodactyl/Yolk-Dockerfile
+          pterodactyl/*
+          !pterodactyl/discord-gpt-egg.json
           !dist/**/*.md
     
   dockerize:
