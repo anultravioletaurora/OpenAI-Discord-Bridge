@@ -5,6 +5,8 @@ LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
 RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig \
     && adduser --disabled-password --home /home/container container
 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 # Create container user
 USER container
 ENV USER=container HOME=/home/container
@@ -14,7 +16,7 @@ WORKDIR /home/container
 
 # Install app dependencies
 COPY ../package*.json ./
-RUN npm install
+RUN sudo npm install
 
 # Bundle app source
 COPY ../dist .
