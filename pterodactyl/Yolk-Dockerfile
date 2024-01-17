@@ -18,7 +18,7 @@ RUN sudo npm install
 COPY ./dist/* /etc/discord-gpt
 
 RUN sudo chmod u+x /etc/discord-gpt/*
-RUN sudo chown -R /etc/discord-gpt container
+RUN sudo chown -R container /etc/discord-gpt
 
 # Copy entrypoint script
 COPY ./pterodactyl/entrypoint.sh /etc/discord-gpt/entrypoint.sh
