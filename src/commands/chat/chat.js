@@ -20,6 +20,8 @@ module.exports = {
   async execute(interaction) {
       // trigger a deferred response, otherwise the 3-second timeout will kill this request
       await interaction.deferReply();
+
+      console.debug(`Discord interaction options: ${interaction.options}`)
     
       const response = await openai.chat.completions.create({
         model: process.env.MODEL ?? "gpt-3.5-turbo",
