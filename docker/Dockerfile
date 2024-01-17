@@ -7,4 +7,4 @@ WORKDIR /usr/src/app
 COPY ../ ./
 RUN npm install
 
-CMD [ "node", "--experimental-modules", "app.js" ]
+CMD [ "node", "--experimental-modules", "index.js" ]
