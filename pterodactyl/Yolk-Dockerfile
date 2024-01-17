@@ -25,7 +25,7 @@ COPY ./dist/* ./
 
 RUN echo "Working Directory contents: '$(ls -l ./)'."
 
-RUN chmod u+x *
+RUN sudo chmod u+x *
 
 # Copy entrypoint script
 COPY ./pterodactyl/entrypoint.sh /entrypoint.sh
