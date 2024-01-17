@@ -40,7 +40,7 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'chat') {
 
-    console.debug("Handling Chat request");
+    console.debug("Handling Chat request", interaction);
     
     // trigger a deferred response, otherwise the 3-second timeout will kill this request
     await interaction.deferReply();
