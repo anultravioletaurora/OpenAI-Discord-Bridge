@@ -3,10 +3,8 @@ FROM node:18-alpine
 LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
 
 RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig sudo \
-    && adduser --disabled-password --home /home/container container
+    && addgroup -S sudo && adduser -G sudo --disabled-password --home /home/container container
 
-# Add container user, sudo group
-RUN sudo addgroup -S sudo && sudo adduser -S container -G sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Create container user
