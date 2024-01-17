@@ -14,12 +14,16 @@ ENV USER=container HOME=/home/container
 # Create app directory
 WORKDIR /home/container
 
+RUN echo "Copying source to '$(pwd)'."
+
 # Install app dependencies
 COPY ../package*.json ./
 RUN sudo npm install
 
 # Bundle app source
 COPY ./dist/* ./
+
+RUN echo "Working Directory contents: '$(ls -l ./)'."
 
 # Copy entrypoint script
 COPY ./pterodactyl/entrypoint.sh /entrypoint.sh
