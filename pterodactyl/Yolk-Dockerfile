@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 LABEL org.cosmonautical.discord-gpt.authors="support@cosmonautical.cloud"
 
-RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig \
+RUN apk add --no-cache --update curl ca-certificates openssl git tar bash sqlite fontconfig sudo \
     && adduser --disabled-password --home /home/container container
 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
