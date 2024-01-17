@@ -19,7 +19,7 @@ COPY ../package*.json ./
 RUN sudo npm install
 
 # Bundle app source
-COPY ../dist .
+COPY ../dist/* ./
 
 # Copy entrypoint script
 COPY ./pterodactyl/entrypoint.sh /entrypoint.sh
