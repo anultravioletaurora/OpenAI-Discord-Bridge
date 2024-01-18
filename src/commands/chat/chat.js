@@ -4,11 +4,14 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("chat")
     .setDescription("Sends a message to ChatGPT")
-    .addStringOption(option => 
-      option.setName("prompt")
-            .setDescription("What do you want ChatGPT to do?")
-            .setRequired(true))
+    .addStringOption((option) => {
+      return option
+              .setName("prompt")
+              .setDescription("What do you want ChatGPT to do?")
+              .setRequired(true)
+    })
     .setDMPermission(true),
+            
             
   async execute(interaction) {
     // trigger a deferred response, otherwise the 3-second timeout will kill this request
