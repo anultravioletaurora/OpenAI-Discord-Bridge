@@ -46,8 +46,9 @@ jobs:
         name: "OpenAI-Discord-Bridge"
         path: |
           dist
+          docker
           package*.json
-          pterodactyl/*
+          pterodactyl
           !pterodactyl/egg-openai-discord-bridge.json
           !dist/**/*.md
 
