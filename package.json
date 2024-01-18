@@ -2,9 +2,11 @@
   "name": "discord-gpt",
   "version": "1.0.4",
   "description": "A bot that connects Discord to ChatGPT because it's 2023",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
+    "build": "npx tsc",
+    "start": "npx tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
@@ -13,5 +15,8 @@
   "dependencies": {
     "discord.js": "^14.11.0",
     "openai": "^4.14.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }
