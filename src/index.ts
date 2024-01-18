@@ -1,11 +1,12 @@
 // Require the necessary discord.js classes
-const fs = require('node:fs');
-const path = require('node:path');
-const { REST, Routes } = require('discord.js');
+import fs from 'node:fs';
+import path from 'node:path';
 
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+import { REST, Routes, Collection, Events, GatewayIntentBits, ApplicationCommand } from 'discord.js';
+import { CommandClient } from './types/command-client';
+import { Command } from './types/command'
 
-function registerCommands(client) {
+function registerCommands(client: CommandClient) {
 	const commands = [];
 	// Grab all the command folders from the commands directory you created earlier
 	const foldersPath = path.join(__dirname, 'commands');
@@ -29,7 +30,7 @@ function registerCommands(client) {
 	}
 
 	// Construct and prepare an instance of the REST module
-	const rest = new REST().setToken(process.env.BOT_TOKEN);
+	const rest = new REST().setToken(process.env.BOT_TOKEN!);
 
 	// and deploy your commands!
 	(async () => {
@@ -38,10 +39,11 @@ function registerCommands(client) {
 
 			// The put method is used to fully refresh all commands in the guild with the current set
 			const data = await rest.put(
-				Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+				Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!),
 				{ body: commands },
 			);
 
+			// @ts-ignore
 			console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 		} catch (error) {
 			// And of course, make sure you catch and log any errors!
@@ -51,7 +53,7 @@ function registerCommands(client) {
 }
 
 // Create a new client instance
-const client = new Client({ 
+const client = new CommandClient({ 
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
@@ -73,7 +75,7 @@ client.once(Events.ClientReady, readyClient => {
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 	
-	const command = interaction.client.commands.get(interaction.commandName);
+	const command = (interaction.client as CommandClient).commands.get(interaction.commandName) as Command;
 	
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);

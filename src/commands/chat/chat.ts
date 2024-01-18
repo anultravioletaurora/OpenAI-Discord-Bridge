@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { CommandInteraction, SlashCommandBuilder } from'discord.js';
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,7 +13,7 @@ module.exports = {
     .setDMPermission(true),
             
             
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     // trigger a deferred response, otherwise the 3-second timeout will kill this request
     await interaction.deferReply();
 
@@ -25,6 +25,8 @@ module.exports = {
 
             
     console.debug(`Discord interaction options: ${JSON.stringify(interaction.options)}`);
+
+    // @ts-ignore
     console.debug(`User submitted prompt: ${interaction.options.getString("prompt")}`);
   
     const response = await openai.chat.completions.create({
@@ -35,6 +37,8 @@ module.exports = {
         {role: "system", content: "You are a sassy and sarcastic assistant, but you don't need to tell me how sassy and sarcastic you are - just be it"},
         {role: "system", content: "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
         {role: "system", content: "You should limit your responses to 2000 characters"},
+
+        // @ts-ignore
         {role: "user", content: interaction.options.getString("prompt")}
       ],
     });
