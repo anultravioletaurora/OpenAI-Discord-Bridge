@@ -43,7 +43,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.repository }}
+          name: "OpenAI-Discord-Bridge"
           path: |
             dist
             package*.json
@@ -63,10 +63,10 @@ jobs:
       id-token: write
 
     steps:
-      - name: Download Discord-GPT artifact
+      - name: Download OpenAI-Discord-Bridge artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ github.repository }}
+          name: "OpenAI-Discord-Bridge"
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
