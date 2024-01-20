@@ -1,7 +1,9 @@
 import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import fs from 'fs'
 
+// ** this is only for attempting to read the file that already exists
 const pathToPersonalityJson = '../../../config/personality.json'
+// ** see below for a remark on this. ~Line 63 - 1/20/2024 JOSEPH
 
 // TODO: Comment | What does this mean?
 module.exports = {
@@ -57,7 +59,9 @@ module.exports = {
       // convert object to json
       const defaultPersonalityJson = JSON.stringify(defaultPersonality);
       // create a new personality.json in /config/ -> error handling
-      fs.writeFile(pathToPersonalityJson, defaultPersonalityJson, (err) => {
+      // ** I HAVE NO IDEA WHY THE FIRST ARG CANT BE `pathToPersonalityJson` BUT APPREARENTLY THEY
+      // ARE WORKING FROM DIFFERENT DIRECTORIES??????????!!?!??!?!?? WTF
+      fs.writeFile('./config/personality.json', defaultPersonalityJson, (err) => {
         if (err) {
           console.log("Failed to create personality JSON!", err);
         } else {
