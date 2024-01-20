@@ -5,6 +5,7 @@ import path from 'node:path';
 import { REST, Routes, Collection, Events, GatewayIntentBits, ApplicationCommand } from 'discord.js';
 import { CommandClient } from './types/command-client';
 import { Command } from './types/command'
+require('dotenv').config();
 
 function registerCommands(client: CommandClient) {
 	const commands = [];
