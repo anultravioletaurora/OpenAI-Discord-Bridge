@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, SlashCommandStringOption } from 'discord.js';
 import { Configuration, OpenAIApi } from "openai";
+import { Roles } from "../enums/roles"
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -23,8 +24,8 @@ async function execute(interaction) {
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [
-      { role: "system", content: "You are a sassy and sarcastic assistant" },
-      { role: "user", content: interaction.options.getString("prompt") }
+      { role: Roles.System, content: "You are a sassy and sarcastic assistant" },
+      { role: Roles.User, content: interaction.options.getString("prompt") }
     ],
   });
 
