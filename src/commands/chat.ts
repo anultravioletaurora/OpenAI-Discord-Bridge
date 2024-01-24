@@ -1,35 +1,50 @@
-import { SlashCommandBuilder, SlashCommandStringOption } from 'discord.js';
-import { Configuration, OpenAIApi } from "openai";
-import { Roles } from "../enums/roles"
+import { CommandInteraction, SlashCommandBuilder } from'discord.js';
+import { Roles } from '../enums/roles';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("chat")
+    .setDescription("Sends a message to ChatGPT")
+    .addStringOption((option) => {
+      return option
+              .setName("prompt")
+              .setDescription("What do you want ChatGPT to do?")
+              .setRequired(true)
+    })
+    .setDMPermission(true),
+            
+            
+  async execute(interaction: CommandInteraction) {
+    // trigger a deferred response, otherwise the 3-second timeout will kill this request
+    await interaction.deferReply();
 
-const data = new SlashCommandBuilder()
-  .setName("chat")
-  .setDescription("Sends a message to ChatGPT")
-  .addStringOption(new SlashCommandStringOption()
-    .setName("prompt")
-    .setDescription("What do you want ChatGPT to do?")
-    .setRequired(true))
-  .setDMPermission(false)
-  .setDefaultMemberPermissions(2);
+    const OpenAI = require('openai');
 
-async function execute(interaction) {
-  // trigger a deferred response, otherwise the 3-second timeout will kill this request
-  await interaction.deferReply();
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
-  const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    messages: [
-      { role: Roles.System, content: "You are a sassy and sarcastic assistant" },
-      { role: Roles.User, content: interaction.options.getString("prompt") }
-    ],
-  });
+            
+    console.debug(`Discord interaction options: ${JSON.stringify(interaction.options)}`);
 
-  await interaction.followUp(response.data.choices[0].message);
-}
+    // @ts-ignore
+    console.debug(`User submitted prompt: ${interaction.options.getString("prompt")}`);
+  
+    const response = await openai.chat.completions.create({
+      model: process.env.MODEL ?? "gpt-3.5-turbo",
+      messages: [
 
-export { data, execute };
+        // TODO: Read these in from a JSON file configurable by the user
+        {role: Roles.System, content: "You are a sassy and sarcastic assistant, but you don't need to tell me how sassy and sarcastic you are - just be it"},
+        {role: Roles.System, content: "You are a gamer and reference dank memes often that you found on your favorite subreddit"},
+        {role: Roles.System, content: "You should limit your responses to 2000 characters"},
+
+        // @ts-ignore
+        {role: Roles.User, content: interaction.options.getString("prompt")}
+      ],
+    });
+    
+    await interaction.followUp(response.choices[0].message);
+  }
+};
+
