@@ -40,6 +40,7 @@ module.exports = {
         // @ts-ignore
         prompt: interaction.options.getString("prompt"),
 
+        model: "dall-e-3",
         // @ts-ignore
         quality: interaction.options.getString("quality"),
         response_format: "b64_json",
