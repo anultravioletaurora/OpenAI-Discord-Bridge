@@ -17,7 +17,7 @@ A bot that connects Discord to OpenAI because the future is here. You and your f
 - Configurable levels of humor and sassiness
 
 ### Run via Docker
-`docker run -e BOT_TOKEN="yourdiscordbottoken" -e CLIENT_ID="yourdiscordappclientid" -e GUILD_ID="yourdiscordserverid" -e OPENAI_API_KEY="youropenaiapikey" ghcr.io/anultravioletaurora/openai-discord-bot:latest`
+```docker run -e BOT_TOKEN="yourdiscordbottoken" -e CLIENT_ID="yourdiscordappclientid" -e GUILD_ID="yourdiscordserverid" -e OPENAI_API_KEY="youropenaiapikey" ghcr.io/anultravioletaurora/openai-discord-bridge:latest```
 This will pull the latest "stable" version from the Github container registry. These containers are automatically generated when new releases come out
 
 ### Environment Variables
