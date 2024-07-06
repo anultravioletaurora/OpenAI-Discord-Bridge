@@ -41,9 +41,21 @@ jobs:
       - run: npm test
 
       - name: Semver Release
+        id: semver
         uses: paulhatch/semantic-version@v5.3.0
         with:
           bump_each_commit: true
+
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.semver.outputs.tag_version }}',
+              sha: context.sha
+            })
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
