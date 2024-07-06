@@ -13,8 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.11.0",
-    "openai": "^4.33.1"
+    "openai": "^4.33.1",
+    "discord.js": "^14.14.1"
   },
   "devDependencies": {
     "typescript": "^5.4.5"
