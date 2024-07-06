@@ -41,7 +41,7 @@ jobs:
       - run: npm test
 
       - name: Semver Release
--       uses: paulhatch/semantic-version@v5.3.0
+        uses: paulhatch/semantic-version@v5.3.0
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
