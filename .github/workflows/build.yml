@@ -44,6 +44,8 @@ jobs:
         uses: K-Phoen/semver-release-action@v1.3.2
         with:
           release_branch: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
