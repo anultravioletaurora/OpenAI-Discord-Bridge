@@ -43,7 +43,7 @@ jobs:
       - name: Semver Release
         uses: K-Phoen/semver-release-action@v1.3.2
         with:
-          release_branch: ${{ github.ref_name }}
+          release_branch: "main"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
