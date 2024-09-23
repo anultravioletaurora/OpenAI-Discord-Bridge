@@ -55,6 +55,16 @@ jobs:
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
 
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        with:
+          name: v${{ steps.semver.outputs.version }}
+          tag: ${{ steps.semver.outputs.version }}
+          token: ${{ secrets.RELEASE_TOKEN }}
+          release_name: Release ${{ steps.semver.outputs.version }}
+          commit: ${{ github.sha }}
+          prerelease: false
+
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -103,7 +113,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}}
+            type=semv er,pattern={{version}}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -160,13 +170,3 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.semver.outputs.version_tag }}
-
-      - name: Create GitHub release
-        uses: actions/create-release@v1
-        with:
-          name: v${{ steps.semver.outputs.version }}
-          tag: ${{ steps.semver.outputs.version }}
-          token: ${{ secrets.RELEASE_TOKEN }}
-          release_name: Release ${{ steps.semver.outputs.version }}
-          commit: ${{ github.sha }}
-          prerelease: false
