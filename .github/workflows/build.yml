@@ -58,11 +58,9 @@ jobs:
       - name: Create GitHub release
         uses: actions/create-release@v1
         with:
-          name: v${{ steps.semver.outputs.version }}
-          tag: ${{ steps.semver.outputs.version }}
-          token: ${{ secrets.RELEASE_TOKEN }}
-          release_name: Release ${{ steps.semver.outputs.version }}
-          commit: ${{ github.sha }}
+          release_name: v${{ steps.semver.outputs.version }}
+          tag_name: ${{ steps.semver.outputs.version }}
+          commitish: ${{ github.sha }}
           prerelease: false
 
       - name: Archive production artifacts
