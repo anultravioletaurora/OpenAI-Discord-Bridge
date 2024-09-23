@@ -55,17 +55,6 @@ jobs:
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
 
-      - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.semver.outputs.version_tag }}',
-              sha: context.sha
-            })
-
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -171,3 +160,13 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.semver.outputs.version_tag }}
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        with:
+          name: v${{ steps.semver.outputs.version }}
+          tag: ${{ steps.semver.outputs.version }}
+          token: ${{ secrets.RELEASE_TOKEN }}
+          release_name: Release ${{ steps.semver.outputs.version }}
+          commit: ${{ github.sha }}
+          prerelease: false
