@@ -53,7 +53,7 @@ jobs:
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
           minor_pattern: "(MINOR)"
           # If this is set to true, *every* commit will be treated as a new version.
-          bump_each_commit: false
+          bump_each_commit: true
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
