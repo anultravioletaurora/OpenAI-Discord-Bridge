@@ -37,8 +37,11 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
+
       - run : npm install
+
       - run: npm run build --if-present
+      
       - run: npm test
 
       - uses: paulhatch/semantic-version@v5.3.0
