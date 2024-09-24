@@ -43,17 +43,6 @@ jobs:
 
       - uses: paulhatch/semantic-version@v5.3.0
         id: semver
-        with:
-          branch: ${{ github.ref }}
-          tag_prefix: ""
-          # A string which, if present in a git commit, indicates that a change represents a
-          # major (breaking) change, supports regular expressions wrapped with '/'
-          major_pattern: "(MAJOR)"
-          # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
-          minor_pattern: "(MINOR)"
-          # If this is set to true, *every* commit will be treated as a new version.
-          bump_each_commit: true
-          version_format: "${major}.${minor}.${patch}"
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
