@@ -26,7 +26,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v3
@@ -45,43 +44,23 @@ jobs:
       - uses: paulhatch/semantic-version@v5.3.0
         id: semver
         with:
-          # The prefix to use to identify tags
-          tag_prefix: "v"
+          branch: ${{ github.ref }}
+          tag_prefix: ""
           # A string which, if present in a git commit, indicates that a change represents a
           # major (breaking) change, supports regular expressions wrapped with '/'
           major_pattern: "(MAJOR)"
-          # A string which indicates the flags used by the `major_pattern` regular expression. Supported flags: idgs
-          major_regexp_flags: ""
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
           minor_pattern: "(MINOR)"
-          # A string which indicates the flags used by the `minor_pattern` regular expression. Supported flags: idgs
-          minor_regexp_flags: ""
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: true
-          # If bump_each_commit is also set to true, setting this value will cause the version to increment only if the pattern specified is matched.
-          bump_each_commit_patch_pattern: ""
-          # If true, the body of commits will also be searched for major/minor patterns to determine the version type.
-          search_commit_body: false
-          # The output method used to generate list of users, 'csv' or 'json'.
-          user_format_type: "csv"
-          # Prevents pre-v1.0.0 version from automatically incrementing the major version.
-          # If enabled, when the major version is 0, major releases will be treated as minor and minor as patch. Note that the version_type output is unchanged.
-          enable_prerelease_mode: false
-          # If enabled, diagnostic information will be added to the action output.
-          debug: false
-          # If true, the branch will be used to select the maximum version.
-          version_from_branch: false
 
-      - name: Create tag
-        uses: actions/github-script@v5
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@v5
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.semver.outputs.version_tag }}',
-              sha: context.sha
-            })
+          title: ${{ steps.semver.outputs.version_tag }}
+          tag: ${{ steps.semver.outputs.version_tag }}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
@@ -131,6 +110,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            # minimal
             type=semver,pattern={{version}}
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -148,18 +128,18 @@ jobs:
           cache-to: type=gha,mode=max
 
 
-      # Sign the resulting Docker image digest except on PRs.
-      # This will only write to the public Rekor transparency log when the Docker
-      # repository is public to avoid leaking data.  If you would like to publish
-      # transparency data even for private images, pass --force to cosign below.
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
-        run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.semver.outputs.version_tag }}
+      # # Sign the resulting Docker image digest except on PRs.
+      # # This will only write to the public Rekor transparency log when the Docker
+      # # repository is public to avoid leaking data.  If you would like to publish
+      # # transparency data even for private images, pass --force to cosign below.
+      # # https://github.com/sigstore/cosign
+      # - name: Sign the published Docker image
+      #   if: ${{ github.event_name != 'pull_request' }}
+      #   env:
+      #     COSIGN_EXPERIMENTAL: "true"
+      #   # This step uses the identity token to provision an ephemeral certificate
+      #   # against the sigstore community Fulcio instance.
+      #   run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -170,21 +150,21 @@ jobs:
           context: "."
           file: "pterodactyl/Dockerfile"
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.semver.outputs.version_tag }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
 
-      # Sign the resulting Docker image digest except on PRs.
-      # This will only write to the public Rekor transparency log when the Docker
-      # repository is public to avoid leaking data.  If you would like to publish
-      # transparency data even for private images, pass --force to cosign below.
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          COSIGN_EXPERIMENTAL: "true"
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
-        run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.semver.outputs.version_tag }}
+      # # Sign the resulting Docker image digest except on PRs.
+      # # This will only write to the public Rekor transparency log when the Docker
+      # # repository is public to avoid leaking data.  If you would like to publish
+      # # transparency data even for private images, pass --force to cosign below.
+      # # https://github.com/sigstore/cosign
+      # - name: Sign the published Docker image
+      #   if: ${{ github.event_name != 'pull_request' }}
+      #   env:
+      #     COSIGN_EXPERIMENTAL: "true"
+      #   # This step uses the identity token to provision an ephemeral certificate
+      #   # against the sigstore community Fulcio instance.
+      #   run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push-yolk.outputs.digest }}
