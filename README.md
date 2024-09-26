@@ -1,7 +1,7 @@
 # OpenAI-Discord-Bridge
 A bot that connects Discord to OpenAI because the future is here. You and your fellow Discordians can bask in it's generative goodness
 
-### Relies on:
+### Built with:
 - https://github.com/discordjs/discord.js
 - https://github.com/openai/openai-node
 
